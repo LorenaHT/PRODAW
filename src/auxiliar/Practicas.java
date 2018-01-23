@@ -152,6 +152,15 @@ public class Practicas {
 		return resultado;
 	}
 	
+	public int[][] convierteArrayListEnMatriz(ArrayList<ArrayList<Integer>> matriz) {
+		int[][] resultado = new int[matriz.get(0).size()][matriz.size()];
+		for (int i = 0; i<matriz.size(); i++) {
+			for (int j = 0; j<matriz.get(0).size(); j++)
+				resultado[i][j] = matriz.get(i).get(j);
+		}
+		return resultado;
+	}
+	
 	//EJERCICIO: Convertir un fichero en Arrayist ArrayList<String> LeerFicheroArrayList (String nombreFichero)
 	public ArrayList<String> LeerFicheroArrayList (String nombreFichero){
 		ArrayList<String> resultado = new ArrayList<String>(); 

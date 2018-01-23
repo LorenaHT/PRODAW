@@ -216,6 +216,16 @@ public class Principal {
 		movimientos.add(5.76f);
 		movimientos.add(456f);
 		System.out.println(practicas.calculaSaldo(1500, movimientos));
+		ArrayList<ArrayList<Integer>> matrizArrayList = new ArrayList<ArrayList<Integer>>();
+		ArrayList<Integer> numerosArrayList1 = new ArrayList<Integer>();
+		ArrayList<Integer> numerosArrayList2 = new ArrayList<Integer>();
+		numerosArrayList1.add(32);
+		numerosArrayList1.add(56);
+		numerosArrayList2.add(22);
+		numerosArrayList2.add(53);
+		matrizArrayList.add(numerosArrayList1);
+		matrizArrayList.add(numerosArrayList2);
+		System.out.println(practicas.convierteArrayListEnMatriz(matrizArrayList));
 
 	}
 
