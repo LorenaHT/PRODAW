@@ -332,21 +332,34 @@ public class Practicas {
 				}
 		return puntos;
 	}
+	
+	public int[] obtenerClasificacion(ArrayList<ArrayList<String>>goles) {
+		int[] puntos = new int[5];
+		int golesLocal;
+		int golesVisitante;
+		String[] resultado = null;
+		// recorrer la matriz de goles
+		for (int i = 0; i < goles.size(); i++)
+			for (int j = 0; j < goles.get(i).size(); j++)
+				if (goles.get(i).get(j).indexOf('-') != -1) {
+					resultado = goles.get(i).get(j).split("-");
+					golesLocal = Integer.parseInt(resultado[0]);
+					golesVisitante = Integer.parseInt(resultado[1]);
+					if (golesLocal > golesVisitante)
+						// suma 3 al local
+						puntos[i] += 3;
+					else if (golesLocal < golesVisitante)
+						// suma 3 al visitante
+						puntos[j] += 3;
+					else { // empate
+						puntos[i] += 1;
+						puntos[j] += 1;
+					}
+				}
+		return puntos;
+	}
 
-	/*
-	 * public ArrayList<Integer> obtenerClasificacion(ArrayList<ArrayList<String>>
-	 * goles) { ArrayList<Integer> puntos = new ArrayList<Integer>(5); int
-	 * golesLocal; int golesVisitante; ArrayList<String> resultado = null; //
-	 * recorrer la matriz de goles for (int i = 0; i < goles.size(); i++) for (int j
-	 * = 0; j < goles.get(i).size(); j++) if (goles.get(i).indexOf('-') != -1) {
-	 * resultado = goles.get(i).split("-"); golesLocal =
-	 * Integer.parseInt(resultado.get(0)); golesVisitante =
-	 * Integer.parseInt(resultado.get(1)); if (golesLocal > golesVisitante) // suma
-	 * 3 al local puntos.set(i, puntos.get(i)+3); else if (golesLocal <
-	 * golesVisitante) // suma 3 al visitante puntos.set(j, puntos.get(j)+3); else {
-	 * // empate puntos.set(i, puntos.get(i)+1); puntos.set(j, puntos.get(j)+1); } }
-	 * return puntos; }
-	 */
+
 
 	public int[] obtenerClasificacion2(String[][] goles) {
 		// la diferencia con el anterior es que recorre la

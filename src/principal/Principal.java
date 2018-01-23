@@ -226,6 +226,17 @@ public class Principal {
 		matrizArrayList.add(numerosArrayList1);
 		matrizArrayList.add(numerosArrayList2);
 		System.out.println(practicas.convierteArrayListEnMatriz(matrizArrayList));
+		ArrayList<ArrayList<String>> goles2 = new ArrayList<ArrayList<String>>();
+		ArrayList<String> golMadrid = new ArrayList<String>();
+		golMadrid.add("3-2");
+		golMadrid.add("1-1");
+		ArrayList<String> golBarcelona = new ArrayList<String>();
+		golBarcelona.add("1-3");
+		golBarcelona.add("2-1");
+		goles2.add(golMadrid);
+		goles2.add(golBarcelona);
+		int[] puntos = practicas.obtenerClasificacion(goles2);
+		System.out.println(puntos);
 
 	}
 
