@@ -1,5 +1,16 @@
 package auxiliar;
 
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.Date;
+import java.time.LocalDate;
+import java.time.Period;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.HashMap;
 import java.util.Random;
 
 import modelo.Datos;
@@ -7,6 +18,215 @@ import modelo.Equipo;
 import modelo.Estudiante;
 
 public class Practicas {
+
+	// SEGUNDA EVALUACION
+
+	public ArrayList<Estudiante> introListas() {
+
+		ArrayList<Estudiante> listaEstudiante;
+		listaEstudiante = new ArrayList<Estudiante>();
+		Estudiante est1 = new Estudiante(123);
+		Estudiante est2 = new Estudiante(321);
+		listaEstudiante.add(est1);
+		listaEstudiante.add(est1);
+		listaEstudiante.add(est1);
+		listaEstudiante.add(est2);
+		listaEstudiante.add(est1);
+		listaEstudiante.add(0, est2);
+		listaEstudiante.remove(listaEstudiante.size() - 1);
+		listaEstudiante.set(0, est1);
+		int tam = listaEstudiante.size();
+		for (Estudiante estudiante : listaEstudiante) {
+			System.out.println(estudiante.getCodGrupo());
+		}
+
+		for (int i = 0; i < listaEstudiante.size(); i++) {
+			System.out.println(listaEstudiante.get(i));
+		}
+		return listaEstudiante;
+		// System.out.println("fin introListas");
+
+	}
+
+	public void listaEstudiantes(ArrayList<Estudiante> lista) {
+		for (Estudiante estudiante : lista) {
+			// if (estudiante != null)
+			try {
+				System.out.println(estudiante.getNombre());
+			} catch (NullPointerException e) {
+
+			}
+		}
+	}
+
+	public HashMap<String, Estudiante> introMapas() {
+		// la clave representa el nif del estudiante
+		HashMap<String, Estudiante> resultado = new HashMap<String, Estudiante>();
+		Estudiante est = new Estudiante(123, "45363715X", "Lorena", 'F', LocalDate.now(), 169, null, null);
+		Estudiante est1 = new Estudiante(456, "43753117X", "Teresa", 'F', LocalDate.now(), 163, null, null);
+		resultado.put(est.getNif(), est);
+		resultado.put(est1.getNif(), est1);
+		resultado.put("123T", new Estudiante(789, "123T", "Pepe", 'M', null, 180, null, null));
+		Estudiante estudiante = resultado.get("45363715X");
+		return resultado;
+
+	}
+
+	public void leerFicheroTexto() {
+		try {
+			// Open the file that is the first
+			// command line parameter
+			FileReader fr = new FileReader("ficheros/Persona.txt");
+			BufferedReader br = new BufferedReader(fr);
+			String linea;
+			LocalDate fechaHoy;
+			System.out.println(LocalDate.now());
+			// Leer el fichero linea a linea
+			while ((linea = br.readLine()) != null) {
+				// while(true) {
+				// Print the content on the console
+				// linea = br.readLine();
+				String[] campos = linea.split("&&");
+				System.out.println(calcularEdad(campos[2]));
+				System.out.println(calcularEdad1(campos[2]));
+				System.out.println(calcularEdad2(campos[2]));
+			}
+			// Close the input stream
+			fr.close();
+			br.close();
+		} catch (FileNotFoundException e) {// Catch exception if any
+			System.err.println("Error: " + e.getMessage());
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			System.err.println("Error: " + e.getMessage());
+		} catch (NullPointerException e) {
+			System.err.println("Error: " + e.getMessage());
+		}
+	}
+
+	public int calcularEdad(String fechaNacimiento) { // ddmmaaaa
+
+		DateTimeFormatter fmt = DateTimeFormatter.ofPattern("ddMMyyyy");
+		LocalDate fechaNac = LocalDate.parse(fechaNacimiento, fmt);
+		LocalDate ahora = LocalDate.now();
+
+		Period periodo = Period.between(fechaNac, ahora);
+		return periodo.getYears();
+	}
+
+	public int calcularEdad1(String fechaNacimiento) {
+		Calendar cal = Calendar.getInstance();
+
+		// cal.set(1985, Calendar.JANUARY, 30);
+		int year = Integer.parseInt(fechaNacimiento.substring(4, 8));
+		int mes = Integer.parseInt(fechaNacimiento.substring(2, 4));
+		int dia = Integer.parseInt(fechaNacimiento.substring(0, 2));
+		System.out.println(dia + "," + mes + "," + year);
+		Date hoy = cal.getTime();
+		cal.set(year, mes, dia);
+		Date birthday = cal.getTime();
+		long diferenciaMilisegundos = hoy.getTime() - birthday.getTime();
+		long time = 1000 * 60 * 60 * 24;
+		return (int) ((diferenciaMilisegundos / time) / 365);
+	}
+
+	public String calcularEdad2(String fechaNacimiento) {
+		DateTimeFormatter fmt = DateTimeFormatter.ofPattern("ddMMyyyy");
+		LocalDate fechaNac = LocalDate.parse(fechaNacimiento, fmt);
+		LocalDate ahora = LocalDate.now();
+
+		Period periodo = Period.between(fechaNac, ahora);
+		String mensaje = "Tu edad es: " + periodo.getYears() + " años " + periodo.getMonths() + " meses y "
+				+ periodo.getDays() + " días";
+		return mensaje;
+	}
+
+	public ArrayList<ArrayList<Integer>> convierteMatrizArrayLista(int[][] matriz) {
+		ArrayList<ArrayList<Integer>> resultado = new ArrayList<ArrayList<Integer>>();
+		for (int[] filaMatriz : matriz) {
+			ArrayList<Integer> filaLista = new ArrayList<Integer>();
+			for (int numero : filaMatriz)
+				filaLista.add(numero);
+			resultado.add(filaLista);
+		}
+		return resultado;
+	}
+	
+	//EJERCICIO: Convertir un fichero en Arrayist ArrayList<String> LeerFicheroArrayList (String nombreFichero)
+	public ArrayList<String> LeerFicheroArrayList (String nombreFichero){
+		ArrayList<String> resultado = new ArrayList<String>(); 
+		try {
+			// Open the file that is the first
+			// command line parameter
+			FileReader fr = new FileReader(nombreFichero);
+			BufferedReader br = new BufferedReader(fr);
+			String linea;
+			// Leer el fichero linea a linea
+			while ((linea = br.readLine()) != null) {
+				// while(true) {
+				// Print the content on the console
+				// linea = br.readLine();
+				String[] campos = linea.split("   ");
+				for (int i=0; i<campos.length; i++)
+				resultado.add(campos[i]);
+			}
+			// Close the input stream
+			fr.close();
+			br.close();
+		} catch (FileNotFoundException e) {// Catch exception if any
+			System.err.println("Error: " + e.getMessage());
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			System.err.println("Error: " + e.getMessage());
+		} catch (NullPointerException e) {
+			System.err.println("Error: " + e.getMessage());
+		}
+		return resultado;
+		
+	}
+	
+	public HashMap<String, String> LeerFicheroHashMapYCalcularEdadMedia (String nombreFichero, String dni){
+		HashMap<String, String> resultado = new HashMap<String, String>();
+		int acumulado = 0;
+		int contador = 0;
+		try {
+			// Open the file that is the first
+			// command line parameter
+			FileReader fr = new FileReader(nombreFichero);
+			BufferedReader br = new BufferedReader(fr);
+			String linea;
+			// Leer el fichero linea a linea
+			while ((linea = br.readLine()) != null) {
+				// while(true) {
+				// Print the content on the console
+				// linea = br.readLine();
+				String[] campos = linea.split("&&");
+				String[] lineas = linea.split("\\n");
+				acumulado += calcularEdad(campos[2]);
+				contador++;
+				for (int i=0; i<lineas.length; i++)	 
+					if (campos[0].equals(dni))
+				resultado.put(campos[0], lineas[i]);
+				System.out.println(campos[0]);
+				
+			}
+			// Close the input stream
+			fr.close();
+			br.close();
+		} catch (FileNotFoundException e) {// Catch exception if any
+			System.err.println("Error: " + e.getMessage());
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			System.err.println("Error: " + e.getMessage());
+		} catch (NullPointerException e) {
+			System.err.println("Error: " + e.getMessage());
+		}
+		System.out.println("Edad Media: "+ acumulado/contador);
+		return resultado;
+	}
+	
+
+	// PRIMERA EVALUACION
 	// private static String[] diasSemana = { "lunes", "martes", "miercoles",
 	// "jueves", "viernes", "sábado", "domingo" };
 
@@ -32,6 +252,19 @@ public class Practicas {
 		return primos;
 	}
 
+	public ArrayList<Integer> numerosPrimosArrayList(int cuantos) {
+		ArrayList<Integer> primos = new ArrayList<Integer>(cuantos);
+		int i = 0;
+		int j = 1;
+		while (i < cuantos) {
+			if (esPrimo(j))
+				primos.add(j);
+			j++;
+			i++;
+		}
+		return primos;
+	}
+
 	public int[] numerosFibonacci(int cuantos) {
 		int[] numeros = new int[cuantos];
 		int x = 0;
@@ -42,6 +275,22 @@ public class Practicas {
 		for (int i = 2; i < cuantos; i++) {
 			z = x + y;
 			numeros[i] = z;
+			x = y;
+			y = z;
+		}
+		return numeros;
+	}
+
+	public ArrayList<Integer> numerosFibonacciArrayList(int cuantos) {
+		ArrayList<Integer> numeros = new ArrayList<Integer>(cuantos);
+		int x = 0;
+		int y = 1;
+		int z;
+		numeros.add(x);
+		numeros.add(y);
+		for (int i = 2; i < cuantos; i++) {
+			z = x + y;
+			numeros.add(z);
 			x = y;
 			y = z;
 		}
@@ -74,6 +323,21 @@ public class Practicas {
 				}
 		return puntos;
 	}
+
+	/*
+	 * public ArrayList<Integer> obtenerClasificacion(ArrayList<ArrayList<String>>
+	 * goles) { ArrayList<Integer> puntos = new ArrayList<Integer>(5); int
+	 * golesLocal; int golesVisitante; ArrayList<String> resultado = null; //
+	 * recorrer la matriz de goles for (int i = 0; i < goles.size(); i++) for (int j
+	 * = 0; j < goles.get(i).size(); j++) if (goles.get(i).indexOf('-') != -1) {
+	 * resultado = goles.get(i).split("-"); golesLocal =
+	 * Integer.parseInt(resultado.get(0)); golesVisitante =
+	 * Integer.parseInt(resultado.get(1)); if (golesLocal > golesVisitante) // suma
+	 * 3 al local puntos.set(i, puntos.get(i)+3); else if (golesLocal <
+	 * golesVisitante) // suma 3 al visitante puntos.set(j, puntos.get(j)+3); else {
+	 * // empate puntos.set(i, puntos.get(i)+1); puntos.set(j, puntos.get(j)+1); } }
+	 * return puntos; }
+	 */
 
 	public int[] obtenerClasificacion2(String[][] goles) {
 		// la diferencia con el anterior es que recorre la
@@ -149,6 +413,16 @@ public class Practicas {
 				}
 	}
 
+	public void ordenaEnteros(ArrayList<Integer> numeros) {
+		for (int i = 0; i < numeros.size() - 1; i++)
+			for (int j = i + 1; j < numeros.size(); j++)
+				if (numeros.get(i) > numeros.get(j)) {
+					int aux = numeros.get(i);
+					numeros.set(i, numeros.get(j));
+					numeros.set(j, aux);
+				}
+	}
+
 	public void ordenaClasificacion(int[] numeros, String[] equipos) {
 		for (int i = 0; i < numeros.length - 1; i++)
 			for (int j = i + 1; j < numeros.length; j++)
@@ -159,6 +433,19 @@ public class Practicas {
 					String aux2 = equipos[i];
 					equipos[i] = equipos[j];
 					equipos[j] = aux2;
+				}
+	}
+
+	public void ordenaClasificacion(ArrayList<Integer> numeros, ArrayList<String> equipos) {
+		for (int i = 0; i < numeros.size() - 1; i++)
+			for (int j = i + 1; j < numeros.size(); j++)
+				if (numeros.get(i) < numeros.get(j)) {
+					int aux = numeros.get(i);
+					numeros.set(i, numeros.get(j));
+					numeros.set(j, aux);
+					String aux2 = equipos.get(i);
+					equipos.set(i, equipos.get(j));
+					equipos.set(j, aux2);
 				}
 	}
 	// mezcla dos arrays ordenados
@@ -179,6 +466,26 @@ public class Practicas {
 
 			if (j == l2.length)
 				l2[--j] = Integer.MAX_VALUE;
+		}
+		return resultado;
+	}
+
+	public ArrayList<Integer> mezclaArrays(ArrayList<Integer> l1, ArrayList<Integer> l2) {
+		int i = 0, j = 0, k = 0;
+		ArrayList<Integer> resultado = new ArrayList<Integer>(l1.size() + l2.size());
+
+		while (l1.get(i) != Integer.MAX_VALUE || l2.get(j) != Integer.MAX_VALUE) {
+			if (l1.get(i) < l2.get(j))
+				resultado.add(k, l1.get(i++));
+			else
+				resultado.add(k, l2.get(j++));
+			k++;
+
+			if (i == l1.size())
+				l1.set(--i, Integer.MAX_VALUE);
+
+			if (j == l2.size())
+				l2.set(--j, Integer.MAX_VALUE);
 		}
 		return resultado;
 	}
@@ -213,6 +520,13 @@ public class Practicas {
 			saldoFinal += movimientos[i];
 		return saldoFinal;
 	}
+	
+	public float calculaSaldo(float saldoInicial, ArrayList<Float> movimientos) {
+		float saldoFinal = saldoInicial;
+		for(float movimiento : movimientos)
+			saldoFinal += movimiento;
+		return saldoFinal;
+	}
 
 	public int[] convierteCadenasANumeros(String[] cadenas) {
 		int[] resultado = new int[cadenas.length];
@@ -226,6 +540,23 @@ public class Practicas {
 				resultado[i] = -1;
 			}
 		}
+		return resultado;
+	}
+
+	public ArrayList<Integer> convierteCadenasANumeros(ArrayList<String> cadenas) {
+		ArrayList<Integer> resultado = new ArrayList<Integer>(cadenas.size());
+		for (String string : cadenas) {
+			try {
+				resultado.add(Integer.parseInt(string));
+			} catch (NumberFormatException e) {
+				resultado.add(-1);
+			}
+		}
+		/*
+		 * for (int i = 0; i < cadenas.size(); i++) { try {
+		 * resultado.add(Integer.parseInt(cadenas.get(i))); } catch
+		 * (NumberFormatException e) { resultado.add(i, -1); } }
+		 */
 		return resultado;
 	}
 
@@ -403,8 +734,7 @@ public class Practicas {
 					System.out.println("[" + i + "][" + j + "]: " + matriz[i][j].byteValue());
 				} catch (ArrayIndexOutOfBoundsException e) {
 					continue;
-				}
-				catch (NullPointerException e) {
+				} catch (NullPointerException e) {
 					continue;
 				}
 

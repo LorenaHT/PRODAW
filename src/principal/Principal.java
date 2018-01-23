@@ -1,7 +1,10 @@
 package principal;
 
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Set;
 
 import auxiliar.Practicas;
 import modelo.Datos;
@@ -13,6 +16,10 @@ import modelo.Profesor;
 public class Principal {
 	// metodo por el que debe empezar la ejecución ..
 	public static void main(String[] args) {
+		
+		// PRIMERA EVALUACION
+		
+		
 		/*
 		 * Persona persona; persona = new Persona();
 		 * 
@@ -119,7 +126,98 @@ public class Principal {
 		//int[] primos = practicas.numerosPrimos(100);
 		//int [] fibonacci = practicas.numerosFibonacci(20);
 		System.out.println("fin");
+		
+		//SEGUNDA EVALUACION
+		
+		practicas.listaEstudiantes(practicas.introListas());
+		System.out.println("---");
+		ArrayList <Estudiante> lista = new ArrayList<Estudiante>();
+		Estudiante est1 = new Estudiante(123);
+		Estudiante est2 = new Estudiante(321);
+		lista.add(est1);
+		lista.add(est2);
+		practicas.listaEstudiantes(lista);
+		
+		System.out.println("-----FIN------");
+		
+		
+		ArrayList <String> cadenasArrayList = new ArrayList<String>();
+		String cadena1 = new String("123");
+		String cadena2 = new String("456");
+		String cadena3 = new String("Hola");
+		cadenasArrayList.add(cadena1);
+		cadenasArrayList.add(cadena2);
+		cadenasArrayList.add(cadena3);
+		System.out.println(practicas.convierteCadenasANumeros(cadenasArrayList));
+		System.out.println("-----FIN------");
+		
+		int numero = 12;
+		System.out.println(practicas.numerosPrimosArrayList(numero));
+		System.out.println("-----FIN------");
+		
+		int cuantosFibonacci = 15;
+		System.out.println(practicas.numerosFibonacciArrayList(cuantosFibonacci));
+		System.out.println("-----FIN------");
+		
+		ArrayList<Integer> enteros = new ArrayList<Integer>();
+		int entero1 = 45;
+		int entero2 = 678;
+		int entero3 = 23;
+		enteros.add(entero1);
+		enteros.add(entero2);
+		enteros.add(entero3);
+		practicas.ordenaEnteros(enteros);
+		System.out.println(enteros);
+		System.out.println("-----FIN------");
+		
+		ArrayList<Integer> clasificacionLista = new ArrayList<Integer>();
+		clasificacionLista.add(23);
+		clasificacionLista.add(2);
+		clasificacionLista.add(56);
+		ArrayList<String> equiposLista = new ArrayList<String>();
+		equiposLista.add("Barcelona");
+		equiposLista.add("Madrid");
+		equiposLista.add("Deportivo");
+		practicas.ordenaClasificacion(clasificacionLista, equiposLista);
+		System.out.println(clasificacionLista + "" + equiposLista);
+		System.out.println("-----FIN------");
+		ArrayList<Integer> l1 = new ArrayList<Integer>();
+		l1.add(23);
+		l1.add(34);
+		ArrayList<Integer> l2 = new ArrayList<Integer>();
+		l2.add(45);
+		l2.add(1);
+		System.out.println(practicas.mezclaArrays(l1, l2));
+		System.out.println("-----FIN------");
+		ArrayList<ArrayList<Integer>> resultado = practicas.convierteMatrizArrayLista(matriz);
+		System.out.println(resultado);
+		System.out.println("-----FIN------");
+		System.out.println(practicas.introMapas());
+		System.out.println("-----FIN------");
+		ArrayList<String> lista2 = new ArrayList<String>();
+		lista2.add("12");
+		lista2.add("19");
+		lista2.add("-12");
+		lista2.add("1x2");
+		ArrayList<Integer> numeros = practicas.convierteCadenasANumeros(lista2);
+		HashMap<String, Estudiante> mapa= practicas.introMapas();	
+		Estudiante noexisto = mapa.get("noexisto");
+		Set<String> claves = mapa.keySet();
+		for (String clave: claves) {
+			System.out.println(mapa.get(clave).getNombre());
+		}
+		
+		practicas.leerFicheroTexto();
+		System.out.println(practicas.LeerFicheroArrayList("ficheros/Persona.txt"));
+		System.out.println(practicas.LeerFicheroHashMapYCalcularEdadMedia("ficheros/Persona.txt", "45363715X"));
+		ArrayList<Float> movimientos = new ArrayList<Float>();
+		movimientos.add(1000f);
+		movimientos.add(300.23f);
+		movimientos.add(5.76f);
+		movimientos.add(456f);
+		System.out.println(practicas.calculaSaldo(1500, movimientos));
 
 	}
+
 
 }
