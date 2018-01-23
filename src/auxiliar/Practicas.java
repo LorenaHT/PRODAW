@@ -354,6 +354,7 @@ public class Practicas {
 					else { // empate
 						puntos[i] += 1;
 						puntos[j] += 1;
+						
 					}
 				}
 		return puntos;
