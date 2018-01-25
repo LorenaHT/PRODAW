@@ -48,16 +48,7 @@ public class Practicas {
 
 	}
 
-	public void listaEstudiantes(ArrayList<Estudiante> lista) {
-		for (Estudiante estudiante : lista) {
-			// if (estudiante != null)
-			try {
-				System.out.println(estudiante.getNombre());
-			} catch (NullPointerException e) {
-
-			}
-		}
-	}
+	
 
 	public HashMap<String, Estudiante> introMapas() {
 		// la clave representa el nif del estudiante
@@ -775,11 +766,29 @@ public class Practicas {
 			}
 		}
 	}
+	
+	public void listaEstudiantes(ArrayList<Estudiante> lista) {
+		for (Estudiante estudiante : lista) {
+			// if (estudiante != null)
+			try {
+				System.out.println(estudiante.getNombre());
+			} catch (NullPointerException e) {
+
+			}
+		}
+	}
 
 	public int visitantesIslaYear(int isla, int[][] v) {
 		int acu = 0;
 		for (int j = 0; j < v[0].length; j++)
 			acu += v[isla][j];
+		return acu;
+	}
+	
+	public int visitantesIslaYear(int isla, ArrayList<ArrayList<Integer>> v) {
+		int acu = 0;
+		for (int j = 0; j < v.get(0).size(); j++)
+			acu += v.get(isla).get(j);
 		return acu;
 	}
 

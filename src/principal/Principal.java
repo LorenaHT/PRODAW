@@ -73,8 +73,9 @@ public class Principal {
 		String[] islas = { "GC", "LTE", "FTV", "TFE", "LPA", "GOM", "HIE" };
 		String[] meses = { "ENE", "FEB", "MAR", "ABR", "MAY", "JUN", "JUL", "AGO", "SEP", "OCT", "NOV", "DIC" };
 
-		/*
-		 * int isla=2; int mes =7; System.out.println("Visitantes en "+ islas[isla]
+		
+		int isla=2; 
+		 /*int mes =7; System.out.println("Visitantes en "+ islas[isla]
 		 * +" : " + practicas.visitantesIslaYear(isla, visitantesYear));
 		 * System.out.println("Visitantes  en Canarias en el mes " + meses[mes]+ " : " +
 		 * practicas.visitantesMesYear(mes, visitantesYear));
@@ -250,7 +251,66 @@ public class Principal {
 		estudiantes.add(est1);
 		practicas.ordenaEstudiantes(estudiantes);
 		System.out.println(estudiantes);
-		
+		ArrayList<ArrayList<Integer>> visitantes = new ArrayList<ArrayList<Integer>>();
+		ArrayList<Integer> visitasIslaL = new ArrayList<Integer>();
+		ArrayList<Integer> visitasIslaF = new ArrayList<Integer>();
+		ArrayList<Integer> visitasIslaG = new ArrayList<Integer>();
+		ArrayList<Integer> visitasIslaT = new ArrayList<Integer>();
+		ArrayList<Integer> visitasIslaLG = new ArrayList<Integer>();
+		ArrayList<Integer> visitasIslaP = new ArrayList<Integer>();
+		ArrayList<Integer> visitasIslaH = new ArrayList<Integer>();
+		visitasIslaL.add(12);
+		visitasIslaL.add(20);
+		visitasIslaL.add(19);
+		visitasIslaL.add(14);
+		visitasIslaL.add(12);
+		visitasIslaL.add(1);
+		visitasIslaF.add(21);
+		visitasIslaF.add(2);
+		visitasIslaF.add(34);
+		visitasIslaF.add(15);
+		visitasIslaF.add(18);
+		visitasIslaF.add(35);
+		visitasIslaG.add(2);
+		visitasIslaG.add(21);
+		visitasIslaG.add(32);
+		visitasIslaG.add(45);
+		visitasIslaG.add(65);
+		visitasIslaG.add(7);
+		visitasIslaT.add(12);
+		visitasIslaT.add(2);
+		visitasIslaT.add(33);
+		visitasIslaT.add(76);
+		visitasIslaT.add(89);
+		visitasIslaT.add(5);
+		visitasIslaLG.add(19);
+		visitasIslaLG.add(24);
+		visitasIslaLG.add(34);
+		visitasIslaLG.add(15);
+		visitasIslaLG.add(78);
+		visitasIslaLG.add(76);
+		visitasIslaP.add(34);
+		visitasIslaP.add(54);
+		visitasIslaP.add(1);
+		visitasIslaP.add(98);
+		visitasIslaP.add(12);
+		visitasIslaP.add(32);
+		visitasIslaH.add(13);
+		visitasIslaH.add(45);
+		visitasIslaH.add(66);
+		visitasIslaH.add(32);
+		visitasIslaH.add(12);
+		visitasIslaH.add(9);
+		visitantes.add(visitasIslaL);
+		visitantes.add(visitasIslaF);
+		visitantes.add(visitasIslaG);
+		visitantes.add(visitasIslaT);
+		visitantes.add(visitasIslaLG);
+		visitantes.add(visitasIslaP);
+		visitantes.add(visitasIslaH);
+		isla = 3;
+		int visitas = practicas.visitantesIslaYear(isla, visitantes);
+		System.out.println(visitas);
 
 	}
 
