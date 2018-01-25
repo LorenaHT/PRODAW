@@ -432,6 +432,21 @@ public class Practicas {
 
 		return clasificacion;
 	}
+	
+	public Equipo[] obtenerClasificacion3(ArrayList<ArrayList<Integer>> puntosJornadas) {
+		Equipo[] clasificacion = new Equipo[5];
+		String[] equipos = new Datos().getEquipos();
+		for (int j = 0; j < puntosJornadas.get(0).size(); j++) {
+			Equipo e = new Equipo();
+			e.setNombre(equipos[j]);
+			e.setPuntos(0);
+			for (int i = 0; i < clasificacion.length; i++)
+				e.setPuntos(e.getPuntos() + puntosJornadas.get(i).get(j));
+			clasificacion[j] = e;
+		}
+
+		return clasificacion;
+	}
 
 	public boolean validarNif(String nif) {
 		char[] letrasValidas = { 'T', 'R', 'W', 'A', 'G', 'M', 'Y', 'F', 'P', 'D', 'X', 'B', 'N', 'J', 'Z', 'S', 'Q',
