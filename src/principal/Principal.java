@@ -349,6 +349,21 @@ public class Principal {
 		mes = 4;
 		int visitasMes = practicas.visitantesMesYear(mes, visitantes);
 		System.out.println(visitasMes);
+		ArrayList<ArrayList<Integer>> matrizArray = new ArrayList<ArrayList<Integer>>();
+		ArrayList<Integer> fila1 = new ArrayList<Integer>();
+		ArrayList<Integer> fila2 = new ArrayList<Integer>();
+		ArrayList<Integer> fila3 = new ArrayList<Integer>();
+		fila1.add(12);
+		fila1.add(1);
+		fila1.add(23);
+		fila2.add(45);
+		fila3.add(67);
+		fila3.add(2);
+		matrizArray.add(fila1);
+		matrizArray.add(fila2);
+		matrizArray.add(fila3);
+		practicas.recorrerMatrizIrregularPorColumnas(matrizArray);
+		System.out.println(matrizArray);
 		
 
 	}
