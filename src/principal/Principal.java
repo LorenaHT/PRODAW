@@ -237,6 +237,14 @@ public class Principal {
 		goles2.add(golBarcelona);
 		int[] puntos = practicas.obtenerClasificacion(goles2);
 		System.out.println(puntos);
+		puntos = practicas.obtenerClasificacion2(goles2);
+		System.out.println(puntos);
+		ArrayList<String> cadenasLista = new ArrayList<String>();
+		cadenasLista.add("Hola");
+		cadenasLista.add("soy");
+		cadenasLista.add("Lorena");
+		practicas.ordenaCadenas(cadenasLista);
+		System.out.println(cadenasLista);
 
 	}
 
