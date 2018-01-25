@@ -389,6 +389,34 @@ public class Practicas {
 				}
 		return puntos;
 	}
+	
+	public int[] obtenerClasificacion2(ArrayList<ArrayList<String>> goles) {
+		// la diferencia con el anterior es que recorre la
+		// matriz por columnas
+		int[] puntos = new int[5];
+		int golesLocal;
+		int golesVisitante;
+		String[] resultado = null;
+		// recorrer la matriz de goles
+		for (int j = 0; j < goles.get(0).size(); j++)
+			for (int i = 0; i < goles.size(); i++)
+				if (goles.get(i).get(j).indexOf('-') != -1) {
+					resultado = goles.get(i).get(j).split("-");
+					golesLocal = Integer.parseInt(resultado[0]);
+					golesVisitante = Integer.parseInt(resultado[1]);
+					if (golesLocal > golesVisitante)
+						// suma 3 al local
+						puntos[i] += 3;
+					else if (golesLocal < golesVisitante)
+						// suma 3 al visitante
+						puntos[j] += 3;
+					else { // empate
+						puntos[i] += 1;
+						puntos[j] += 1;
+					}
+				}
+		return puntos;
+	}
 
 	public Equipo[] obtenerClasificacion3(int[][] puntosJornadas) {
 		Equipo[] clasificacion = new Equipo[5];
