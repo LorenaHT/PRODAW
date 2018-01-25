@@ -590,6 +590,19 @@ public class Practicas {
 					estudiantes[j] = aux;
 				}
 	}
+	
+	public void ordenaEstudiantes(ArrayList<Estudiante> estudiantes) {
+		// ejemplo de uso de la interfaz Comparable
+		// debe implementarse el método compareTo
+
+		for (int i = 0; i < estudiantes.size() - 1; i++)
+			for (int j = i + 1; j < estudiantes.size(); j++)
+				if (estudiantes.get(i).compareTo(estudiantes.get(j)) > 0) {
+					Estudiante aux = estudiantes.get(i);
+					estudiantes.set(i, estudiantes.get(j));
+					estudiantes.set(j, aux);
+				}
+	}
 
 	public float calculaSaldo(float saldoInicial, float[] movimientos) {
 		float saldoFinal = saldoInicial;

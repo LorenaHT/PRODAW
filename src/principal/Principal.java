@@ -132,8 +132,8 @@ public class Principal {
 		practicas.listaEstudiantes(practicas.introListas());
 		System.out.println("---");
 		ArrayList <Estudiante> lista = new ArrayList<Estudiante>();
-		Estudiante est1 = new Estudiante(123);
-		Estudiante est2 = new Estudiante(321);
+		Estudiante est1 = new Estudiante(321);
+		Estudiante est2 = new Estudiante(123);
 		lista.add(est1);
 		lista.add(est2);
 		practicas.listaEstudiantes(lista);
@@ -245,6 +245,12 @@ public class Principal {
 		cadenasLista.add("Lorena");
 		practicas.ordenaCadenas(cadenasLista);
 		System.out.println(cadenasLista);
+		ArrayList<Estudiante> estudiantes = new ArrayList<Estudiante>();
+		estudiantes.add(est2);
+		estudiantes.add(est1);
+		practicas.ordenaEstudiantes(estudiantes);
+		System.out.println(estudiantes);
+		
 
 	}
 
