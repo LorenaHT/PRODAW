@@ -362,7 +362,9 @@ public class Principal {
 		matrizArray.add(fila1);
 		matrizArray.add(fila2);
 		matrizArray.add(fila3);
-		practicas.recorrerMatrizIrregularPorColumnas(matrizArray);
+		/*practicas.recorrerMatrizIrregularPorColumnas(matrizArray);
+		System.out.println(matrizArray);*/
+		practicas.recorrerMatrizIrregularPorColumnas2(matrizArray);
 		System.out.println(matrizArray);
 		
 
