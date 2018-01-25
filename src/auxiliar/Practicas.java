@@ -798,6 +798,13 @@ public class Practicas {
 			acu += v[i][mes];
 		return acu;
 	}
+	
+	public int visitantesMesYear(int mes, ArrayList<ArrayList<Integer>> v) {
+		int acu = 0;
+		for (ArrayList<Integer> visitas : v)
+			acu += visitas.get(mes);
+		return acu;
+	}
 
 	public void recorrerMatrizIrregularPorColumnas(int[][] matriz) {
 		int JMAX = 0;
