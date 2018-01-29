@@ -355,18 +355,19 @@ public class Principal {
 		ArrayList<Integer> fila3 = new ArrayList<Integer>();
 		fila1.add(12);
 		fila1.add(1);
+		fila1.add(null);
 		fila1.add(23);
+		fila2.add(null);
 		fila2.add(45);
 		fila3.add(67);
 		fila3.add(2);
+		fila3.add(null);
 		matrizArray.add(fila1);
 		matrizArray.add(fila2);
 		matrizArray.add(fila3);
-		/*practicas.recorrerMatrizIrregularPorColumnas(matrizArray);
-		System.out.println(matrizArray);*/
+		practicas.recorrerMatrizIrregularPorColumnas(matrizArray);
+		System.out.println("FIN");
 		practicas.recorrerMatrizIrregularPorColumnas2(matrizArray);
-		System.out.println(matrizArray);
-		
 
 	}
 

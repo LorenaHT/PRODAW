@@ -48,8 +48,6 @@ public class Practicas {
 
 	}
 
-	
-
 	public HashMap<String, Estudiante> introMapas() {
 		// la clave representa el nif del estudiante
 		HashMap<String, Estudiante> resultado = new HashMap<String, Estudiante>();
@@ -142,19 +140,20 @@ public class Practicas {
 		}
 		return resultado;
 	}
-	
+
 	public int[][] convierteArrayListEnMatriz(ArrayList<ArrayList<Integer>> matriz) {
 		int[][] resultado = new int[matriz.get(0).size()][matriz.size()];
-		for (int i = 0; i<matriz.size(); i++) {
-			for (int j = 0; j<matriz.get(0).size(); j++)
+		for (int i = 0; i < matriz.size(); i++) {
+			for (int j = 0; j < matriz.get(0).size(); j++)
 				resultado[i][j] = matriz.get(i).get(j);
 		}
 		return resultado;
 	}
-	
-	//EJERCICIO: Convertir un fichero en Arrayist ArrayList<String> LeerFicheroArrayList (String nombreFichero)
-	public ArrayList<String> LeerFicheroArrayList (String nombreFichero){
-		ArrayList<String> resultado = new ArrayList<String>(); 
+
+	// EJERCICIO: Convertir un fichero en Arrayist ArrayList<String>
+	// LeerFicheroArrayList (String nombreFichero)
+	public ArrayList<String> LeerFicheroArrayList(String nombreFichero) {
+		ArrayList<String> resultado = new ArrayList<String>();
 		try {
 			// Open the file that is the first
 			// command line parameter
@@ -167,8 +166,8 @@ public class Practicas {
 				// Print the content on the console
 				// linea = br.readLine();
 				String[] campos = linea.split("   ");
-				for (int i=0; i<campos.length; i++)
-				resultado.add(campos[i]);
+				for (int i = 0; i < campos.length; i++)
+					resultado.add(campos[i]);
 			}
 			// Close the input stream
 			fr.close();
@@ -182,10 +181,10 @@ public class Practicas {
 			System.err.println("Error: " + e.getMessage());
 		}
 		return resultado;
-		
+
 	}
-	
-	public HashMap<String, String> LeerFicheroHashMapYCalcularEdadMedia (String nombreFichero, String dni){
+
+	public HashMap<String, String> LeerFicheroHashMapYCalcularEdadMedia(String nombreFichero, String dni) {
 		HashMap<String, String> resultado = new HashMap<String, String>();
 		int acumulado = 0;
 		int contador = 0;
@@ -204,11 +203,11 @@ public class Practicas {
 				String[] lineas = linea.split("\\n");
 				acumulado += calcularEdad(campos[2]);
 				contador++;
-				for (int i=0; i<lineas.length; i++)	 
+				for (int i = 0; i < lineas.length; i++)
 					if (campos[0].equals(dni))
-				resultado.put(campos[0], lineas[i]);
+						resultado.put(campos[0], lineas[i]);
 				System.out.println(campos[0]);
-				
+
 			}
 			// Close the input stream
 			fr.close();
@@ -221,10 +220,9 @@ public class Practicas {
 		} catch (NullPointerException e) {
 			System.err.println("Error: " + e.getMessage());
 		}
-		System.out.println("Edad Media: "+ acumulado/contador);
+		System.out.println("Edad Media: " + acumulado / contador);
 		return resultado;
 	}
-	
 
 	// PRIMERA EVALUACION
 	// private static String[] diasSemana = { "lunes", "martes", "miercoles",
@@ -323,8 +321,8 @@ public class Practicas {
 				}
 		return puntos;
 	}
-	
-	public int[] obtenerClasificacion(ArrayList<ArrayList<String>>goles) {
+
+	public int[] obtenerClasificacion(ArrayList<ArrayList<String>> goles) {
 		int[] puntos = new int[5];
 		int golesLocal;
 		int golesVisitante;
@@ -345,13 +343,11 @@ public class Practicas {
 					else { // empate
 						puntos[i] += 1;
 						puntos[j] += 1;
-						
+
 					}
 				}
 		return puntos;
 	}
-
-
 
 	public int[] obtenerClasificacion2(String[][] goles) {
 		// la diferencia con el anterior es que recorre la
@@ -380,7 +376,7 @@ public class Practicas {
 				}
 		return puntos;
 	}
-	
+
 	public int[] obtenerClasificacion2(ArrayList<ArrayList<String>> goles) {
 		// la diferencia con el anterior es que recorre la
 		// matriz por columnas
@@ -423,7 +419,7 @@ public class Practicas {
 
 		return clasificacion;
 	}
-	
+
 	public Equipo[] obtenerClasificacion3(ArrayList<ArrayList<Integer>> puntosJornadas) {
 		Equipo[] clasificacion = new Equipo[5];
 		String[] equipos = new Datos().getEquipos();
@@ -557,7 +553,7 @@ public class Practicas {
 				}
 
 	}
-	
+
 	public void ordenaCadenas(ArrayList<String> cadenas) {
 		for (int i = 0; i < cadenas.size() - 1; i++)
 			for (int j = i + 1; j < cadenas.size(); j++)
@@ -581,7 +577,7 @@ public class Practicas {
 					estudiantes[j] = aux;
 				}
 	}
-	
+
 	public void ordenaEstudiantes(ArrayList<Estudiante> estudiantes) {
 		// ejemplo de uso de la interfaz Comparable
 		// debe implementarse el método compareTo
@@ -601,10 +597,10 @@ public class Practicas {
 			saldoFinal += movimientos[i];
 		return saldoFinal;
 	}
-	
+
 	public float calculaSaldo(float saldoInicial, ArrayList<Float> movimientos) {
 		float saldoFinal = saldoInicial;
-		for(float movimiento : movimientos)
+		for (float movimiento : movimientos)
 			saldoFinal += movimiento;
 		return saldoFinal;
 	}
@@ -766,7 +762,7 @@ public class Practicas {
 			}
 		}
 	}
-	
+
 	public void listaEstudiantes(ArrayList<Estudiante> lista) {
 		for (Estudiante estudiante : lista) {
 			// if (estudiante != null)
@@ -784,7 +780,7 @@ public class Practicas {
 			acu += v[isla][j];
 		return acu;
 	}
-	
+
 	public int visitantesIslaYear(int isla, ArrayList<ArrayList<Integer>> v) {
 		int acu = 0;
 		for (int j = 0; j < v.get(0).size(); j++)
@@ -798,7 +794,7 @@ public class Practicas {
 			acu += v[i][mes];
 		return acu;
 	}
-	
+
 	public int visitantesMesYear(int mes, ArrayList<ArrayList<Integer>> v) {
 		int acu = 0;
 		for (ArrayList<Integer> visitas : v)
@@ -825,7 +821,7 @@ public class Practicas {
 			}
 		}
 	}
-	
+
 	public void recorrerMatrizIrregularPorColumnas(ArrayList<ArrayList<Integer>> matriz) {
 		int JMAX = 0;
 		// obtenemos el numero maximo de columnas
@@ -867,6 +863,7 @@ public class Practicas {
 		}
 	}
 	
+
 	public void recorrerMatrizIrregularPorColumnas2(ArrayList<ArrayList<Integer>> matriz) {
 		int JMAX = 0;
 		// obtenemos el numero maximo de columnas
