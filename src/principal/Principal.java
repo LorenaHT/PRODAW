@@ -3,6 +3,7 @@ package principal;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Set;
 
@@ -12,6 +13,7 @@ import modelo.Equipo;
 import modelo.Estudiante;
 import modelo.Persona;
 import modelo.Profesor;
+import modelo.Vehiculo;
 
 public class Principal {
 	// metodo por el que debe empezar la ejecución ..
@@ -368,7 +370,14 @@ public class Principal {
 		practicas.recorrerMatrizIrregularPorColumnas(matrizArray);
 		System.out.println("FIN");
 		practicas.recorrerMatrizIrregularPorColumnas2(matrizArray);
-
+		Collections.sort(lista2);
+		System.out.println(practicas.generaFicheroLanzamientoDados(101,"ficheros/LanzamientoDados.txt"));
+		//System.out.println(practicas.grabarObjetosEnFichero("ficheros/Vehiculos.txt"));
+		practicas.grabarObjetosEnFichero("ficheros/Vehiculos.txt");
+		Collections.sort(lista2);
+		practicas.leerObjetosEnFichero("ficheros/Vehiculos.txt");
+		
+		
 	}
 
 }

@@ -1,9 +1,15 @@
 package auxiliar;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.util.Date;
 import java.time.LocalDate;
 import java.time.Period;
@@ -12,14 +18,91 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Random;
-
 import modelo.Datos;
 import modelo.Equipo;
 import modelo.Estudiante;
+import modelo.Vehiculo;
 
 public class Practicas {
 
 	// SEGUNDA EVALUACION
+	public void grabarObjetosEnFichero(String nombreFichero) {
+		// public boolean grabarObjetosEnFichero(String nombreFichero) {
+		/*Vehiculo v1 = new Vehiculo();
+		Vehiculo v2 = new Vehiculo();
+		Vehiculo v3 = new Vehiculo();*/
+		Estudiante est = new Estudiante(456,"45363715X","Lorena",'F',null,169,null,null);
+		/*v2.setMarca("Opel");
+		v1.setMatricula("GC 3208 X");
+		v1.setMarca("Seat");*/
+		// abrir el fichero de objetos
+		try {
+			ObjectOutputStream fObj = new ObjectOutputStream(new FileOutputStream(nombreFichero));
+			// Guardar los objetos de vehiculos
+			/*fObj.writeObject(v1);
+			fObj.writeObject(v2);
+			fObj.writeObject(v3);*/
+			fObj.writeObject(est);
+			fObj.close();
+			// return true;
+		} catch (FileNotFoundException e) {
+			System.out.println("Fichero no encontrado");
+			// return false;
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			System.out.println("Error IO");
+			// return false;
+		}
+	}
+
+	public void leerObjetosEnFichero(String nombreFichero) {
+		// leer el fichero de objetos
+		try {
+			FileInputStream fis = new FileInputStream(nombreFichero);
+			ObjectInputStream fObj = new ObjectInputStream(fis);
+			//Vehiculo vehiculo = null;
+			Estudiante estudiante = null;
+			while (fis.available() > 0) {
+				estudiante = (Estudiante) fObj.readObject();
+				System.out.println(estudiante.getNombre());
+			}
+			fObj.close();
+			fis.close();
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			System.out.println("ClassNotFound");
+		} catch (FileNotFoundException e) {
+			System.out.println("Fichero no encontrado");
+			// return false;
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			System.out.println("Error IO");
+			// return false;
+		}
+	}
+
+	public boolean generaFicheroLanzamientoDados(int cantidad, String nombreFichero) {
+		try {
+			BufferedWriter fb = new BufferedWriter(new FileWriter(nombreFichero));
+			Random rnd = new Random();
+			for (int i = 0; i < cantidad; i++) {
+				int numero = 1 + rnd.nextInt(6);
+				String registro = System.currentTimeMillis() + "#" + i + "#" + numero + "\n";
+				int retardo = 1 + rnd.nextInt(1000);
+				// Thread.sleep(retardo);
+				fb.write(registro);
+			}
+			fb.close();
+			return true;
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			System.out.println(e.getMessage());
+			return false;
+		} /*
+			 * catch (InterruptedException e) { // TODO Auto-generated catch block
+			 * System.out.println(e.getMessage()); return false; }
+			 */
+	}
 
 	public ArrayList<Estudiante> introListas() {
 
@@ -862,7 +945,6 @@ public class Practicas {
 			}
 		}
 	}
-	
 
 	public void recorrerMatrizIrregularPorColumnas2(ArrayList<ArrayList<Integer>> matriz) {
 		int JMAX = 0;
