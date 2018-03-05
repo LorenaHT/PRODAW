@@ -3,7 +3,7 @@ package modelo;
 import java.io.Serializable;
 import java.time.LocalDate;
 
-public class Vehiculo implements Serializable{
+public class Vehiculos implements Serializable{
 	/**
 	 * 
 	 */

@@ -13,7 +13,7 @@ import modelo.Equipo;
 import modelo.Estudiante;
 import modelo.Persona;
 import modelo.Profesor;
-import modelo.Vehiculo;
+import modelo.Vehiculos;
 
 public class Principal {
 	// metodo por el que debe empezar la ejecución ..
@@ -373,11 +373,27 @@ public class Principal {
 		Collections.sort(lista2);
 		System.out.println(practicas.generaFicheroLanzamientoDados(101,"ficheros/LanzamientoDados.txt"));
 		//System.out.println(practicas.grabarObjetosEnFichero("ficheros/Vehiculos.txt"));
-		practicas.grabarObjetosEnFichero("ficheros/Vehiculos.txt");
+		practicas.grabarObjetosEnFichero("ficheros/Vehiculo.txt");
 		Collections.sort(lista2);
-		practicas.leerObjetosEnFichero("ficheros/Vehiculos.txt");
-		
-		
+		practicas.leerObjetosEnFichero("ficheros/Vehiculo.txt");
+		Practicas.grabarListaObjetosEnFichero("ficheros/ListaObjetos.txt");
+		practicas.leerListaObjetosArrayListEstudianteEnFichero("ficheros/ListaObjetos.txt");
+		practicas.LeerFicheroArrayListVehiculos("ficheros/Vehiculos.txt");
+		//System.out.println(practicas.LeerFicheroArrayList("ficheros/Persona.txt"));
+		practicas.grabarObjetosVehiculoEnFichero("ficheros/VehiculosObjetos.txt");
+		practicas.leerObjetosVehiculoEnFichero("ficheros/VehiculosObjetos.txt");
+		practicas.grabarObjetosArrayListVehiculoEnFichero("ficheros/VehiculosObjetosArrayList.txt");
+		practicas.leerObjetosVehiculoArrayListEnFichero("ficheros/VehiculosObjetosArrayList.txt");
+		System.out.println("Total: " + practicas.calculaSaldo(2000, "ficheros/Movimientos.txt"));
+		practicas.leerFicheroTextoLanzamientoDados();
+		practicas.visitantesIslaMes("ficheros/Islas.txt");
+		practicas.visitantesMesYear("ficheros/Islas.txt");
+		practicas.listadoIslasMeses("ficheros/Islas.txt");
+		practicas.leerFicheroOrdenados("ficheros/estudiantesPorGrupos.txt");
+		practicas.copiarEstudiantestxtAObjetos("ficheros/estudiantes.txt", "ficheros/EstudiantesObj.txt");
+		practicas.LeerFicheroArrayString("ficheros/comunidades.txt");
+		practicas.LeerFicheroHashMapIntegerString("ficheros/provincias.txt");
+		//practicas.LeerFicheroHashMapIntegerLinkedHashMap("ficheros/comunidades.txt", "ficheros/provincias.txt");
+		practicas.LeerFicheroHashMapArrayListString("ficheros/comunidades.txt", "ficheros/provincias.txt");
 	}
-
 }

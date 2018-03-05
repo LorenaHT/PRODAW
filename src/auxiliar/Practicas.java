@@ -17,31 +17,491 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Random;
+import java.util.Set;
+
 import modelo.Datos;
 import modelo.Equipo;
 import modelo.Estudiante;
 import modelo.Vehiculo;
+import modelo.Vehiculos;
 
 public class Practicas {
 
 	// SEGUNDA EVALUACION
-	public void grabarObjetosEnFichero(String nombreFichero) {
+
+	// Paso 1: Leer comunidades.txt y crear {array / Lista}
+	// String[] paso1 (String ficheroCA)
+	// HashMap(Integer,ArrayList);
+	// Paso 2: Leer provincias.txt creando un HashMap (K=>Valor) donde K= -> CA {id
+	// / nombre); V -> listaProvincia Devolver el HashMap
+	// String "BISCCAYA#1500"
+	// Paso 3: Recorrer y listar el HahMap creado en paso 2
+
+	public String[] LeerFicheroArrayString(String fichero) {
+		String[] resultado = new String[20];
+		try {
+			FileReader fr = new FileReader(fichero);
+			BufferedReader br = new BufferedReader(fr);
+			String linea;
+			while ((linea = br.readLine()) != null) {
+				String[] campos = linea.split("%");
+				int id = Integer.parseInt(campos[0]);
+				String comunidad = campos[1];
+				resultado[id] = comunidad;
+			}
+			fr.close();
+			br.close();
+		} catch (FileNotFoundException e) {// Catch exception if any
+			System.err.println("Error: " + e.getMessage());
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			System.err.println("Error: " + e.getMessage());
+		} catch (NullPointerException e) {
+			System.err.println("Error: " + e.getMessage());
+		}
+		return resultado;
+	}
+
+	public HashMap<Integer, String> LeerFicheroHashMapIntegerString(String fichero) {
+		HashMap<Integer, String> provincias = new HashMap<Integer, String>();
+		try {
+			FileReader fr = new FileReader(fichero);
+			BufferedReader br = new BufferedReader(fr);
+			String linea;
+			while ((linea = br.readLine()) != null) {
+				String[] campos = linea.split("%");
+				int id = Integer.parseInt(campos[0]);
+				String cadena = campos[1] + "#" + campos[2] + "#" + campos[3];
+				provincias.put(id, cadena);
+			}
+			fr.close();
+			br.close();
+		} catch (FileNotFoundException e) {// Catch exception if any
+			System.err.println("Error: " + e.getMessage());
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			System.err.println("Error: " + e.getMessage());
+		} catch (NullPointerException e) {
+			System.err.println("Error: " + e.getMessage());
+		}
+		return provincias;
+	}
+
+	public HashMap<Integer, LinkedHashMap<Integer, ArrayList<String>>> LeerFicheroHashMapIntegerLinkedHashMap(
+			String ficheroComunidades, String ficheroProvincias) {
+		HashMap<Integer, LinkedHashMap<Integer, ArrayList<String>>> resultado = new HashMap<Integer, LinkedHashMap<Integer, ArrayList<String>>>();
+		String[] comunidades = LeerFicheroArrayString(ficheroComunidades);
+		HashMap<Integer, String> provincia = LeerFicheroHashMapIntegerString(ficheroProvincias);
+		Set<Integer> claves = provincia.keySet();
+		System.out.println("Comunidades Autonomas");
+		for (int i = 1; i < comunidades.length; i++) {
+			System.out.println("Comunidad Autonoma: " + comunidades[i]);
+			LinkedHashMap<Integer, ArrayList<String>> provincias = new LinkedHashMap<Integer, ArrayList<String>>();
+			for (int clave : claves) {
+				ArrayList<String> datos = new ArrayList<String>();
+				String[] campos = provincia.get(clave).split("#");
+				datos.add(campos[0]);
+				datos.add(campos[2]);
+				if (Integer.parseInt(campos[1]) == i) {
+					provincias.put(clave, datos);
+				}
+
+			}
+			resultado.put(i, provincias);
+		}
+		System.out.println(resultado);
+		return resultado;
+	}
+
+	public HashMap<Integer, ArrayList<ArrayList<String>>> LeerFicheroHashMapArrayListString(String ficheroComunidades,
+			String ficheroProvincias) {
+		HashMap<Integer, ArrayList<ArrayList<String>>> resultado = new HashMap<Integer, ArrayList<ArrayList<String>>>();
+		String[] comunidades = LeerFicheroArrayString(ficheroComunidades);
+		HashMap<Integer, String> provincia = LeerFicheroHashMapIntegerString(ficheroProvincias);
+		Set<Integer> claves = provincia.keySet();
+		ArrayList<Integer> orden = new ArrayList<Integer>();
+		System.out.println("Comunidades Autonomas");
+		for (int i = 1; i < comunidades.length; i++) {
+			//System.out.println("Comunidad Autonoma: " + comunidades[i]);
+			ArrayList<ArrayList<String>> provincias = new ArrayList<ArrayList<String>>();
+			for (int clave : claves) {
+				ArrayList<String> datos = new ArrayList<String>();
+				String[] campos = provincia.get(clave).split("#");
+				datos.add(String.valueOf(clave));
+				datos.add(campos[0]);
+				datos.add(campos[2]);
+				boolean insertar = true;
+				for (int j = 0; j < orden.size(); j++) {
+					if (orden.get(j)==Integer.parseInt(campos[1])) {
+						insertar = false;
+					}
+				}
+				if (insertar == true)
+					orden.add(Integer.parseInt(campos[1]));
+				if (Integer.parseInt(campos[1]) == i) {
+					//System.out.println(campos[0] + "   " + campos[2]);
+					provincias.add(datos);
+					
+				}
+			}
+			
+			//System.out.println("Total de CCAA: " + suma);
+			resultado.put(i, provincias);
+
+		}
+		//System.out.println(orden);
+		
+		for (int i = 0; i<orden.size(); i++) {
+			int suma = 0;
+			ArrayList<ArrayList<String>> lista = resultado.get(orden.get(i));
+			for (int j=0; j<lista.size(); j++) {
+				if (j==0)
+					System.out.println("Comunidad Autonoma: "+comunidades[orden.get(i)]);
+				System.out.println(lista.get(j).get(1)+"\t\t"+lista.get(j).get(2));
+				suma += Integer.parseInt(lista.get(j).get(2));
+			}
+			System.out.println("Total de CCAA: "+suma+"\n");
+		}
+		return resultado;
+	}
+
+	public Estudiante crearEstudianteLeido(String[] datos) {
+		int grupo = Integer.parseInt(datos[0]);
+		Estudiante estudiante = new Estudiante(grupo);
+		DateTimeFormatter fmt = DateTimeFormatter.ofPattern("yyyyMMdd");
+		LocalDate fechaNacimiento = LocalDate.parse(datos[4], fmt);
+		estudiante.setNif(datos[1]);
+		estudiante.setNombre(datos[2]);
+		estudiante.setSexo(datos[3].charAt(0));
+		estudiante.setFecha(fechaNacimiento);
+		estudiante.setAltura(Integer.parseInt(datos[5]));
+		estudiante.setMadre(null);
+		estudiante.setPadre(null);
+		return estudiante;
+	}
+
+	public void copiarEstudiantestxtAObjetos(String rutaTxt, String rutaObj) {
+		/*
+		 * ArrayList<Estudiante> estNew = new ArrayList<Estudiante>();
+		 * ArrayList<Estudiante> estFich = new ArrayList<Estudiante>();
+		 */
+		try {
+			FileReader fr = new FileReader(rutaTxt);
+			BufferedReader br = new BufferedReader(fr);
+			ObjectOutputStream oos = new ObjectOutputStream(new FileOutputStream(rutaObj));
+			String linea;
+			while ((linea = br.readLine()) != null) {
+				String[] campos = linea.split("#");
+				Estudiante estudiante = crearEstudianteLeido(campos);
+				/*
+				 * Estudiante estudiante = new Estudiante(Integer.parseInt(campos[0]));
+				 * DateTimeFormatter fmt = DateTimeFormatter.ofPattern("yyyyMMdd"); LocalDate
+				 * fechaNacimiento = LocalDate.parse(campos[4], fmt);
+				 * estudiante.setNif(campos[1]); estudiante.setNombre(campos[2]);
+				 * estudiante.setSexo(campos[3].charAt(0));
+				 * estudiante.setFecha(fechaNacimiento);
+				 * estudiante.setAltura(Integer.parseInt(campos[5]));
+				 */
+				// estNew.add(estudiante);
+				oos.writeObject(estudiante);
+			}
+			// while (fis.available() > 0)
+			// estFich = (ArrayList<Estudiante>) ois.readObject();
+			/*
+			 * for (Estudiante estudiante : estNew) estFich.add(estudiante);
+			 */
+			// estFich.addAll(estNew);
+			// oos.writeObject(estFich);
+			fr.close();
+			br.close();
+			oos.close();
+			// ois.close();
+			copiaEstudiantesObjATxt(rutaObj, "ficheros/NewEstObj.txt");
+		} catch (FileNotFoundException e) {// Catch exception if any
+			System.err.println("Error: " + e.getMessage());
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			System.err.println("Error: " + e.getMessage());
+		} catch (NullPointerException e) {
+			System.err.println("Error: " + e.getMessage());
+		}
+
+	}
+
+	public void copiaEstudiantesObjATxt(String rutaObj, String rutaTxt) {
+		try {
+			FileInputStream fis = new FileInputStream(rutaObj);
+			ObjectInputStream ois = new ObjectInputStream(fis);
+			BufferedWriter fb = new BufferedWriter(new FileWriter(rutaTxt));
+			Estudiante estudiante = null;
+			while (fis.available() > 0) {
+				estudiante = (Estudiante) ois.readObject();
+				String fechaCompleta = estudiante.getFecha().toString();
+				String[] fecha = fechaCompleta.split("-");
+				String registro = estudiante.getCodGrupo() + "#" + estudiante.getNif() + "#"+estudiante.getNombre() + "#" + estudiante.getSexo()
+						+ "#" + fecha[0] + fecha[1] + fecha[2] + "#" + estudiante.getAltura() + "\n";
+				fb.write(registro);
+			}
+			ois.close();
+			fis.close();
+			fb.close();
+		} catch (FileNotFoundException e) {// Catch exception if any
+			System.err.println("Error: " + e.getMessage());
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			System.err.println("Error: " + e.getMessage());
+		} catch (NullPointerException e) {
+			System.err.println("Error: " + e.getMessage());
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			System.err.println("Error: " + e.getMessage());
+		}
+	}
+
+	public void leerFicheroOrdenados(String rutaFichero) {
+		String codAnterior = null;
+		String codLeido = null;
+		int contadorGrupo = 0;
+		int contadorTotal = 0;
+		try {
+			FileReader fr = new FileReader(rutaFichero);
+			BufferedReader br = new BufferedReader(fr);
+			String linea;
+			// Leer el fichero linea a linea
+			while ((linea = br.readLine()) != null) {
+				String[] campos = linea.split("&&");
+				codLeido = campos[0];
+				if (codAnterior == null)
+					codAnterior = codLeido;
+				if (!codLeido.equals(codAnterior)) {
+					System.out.println("\nHay " + contadorGrupo + " alumnos en el grupo " + codAnterior);
+					contadorTotal += contadorGrupo;
+					contadorGrupo = 0;
+					codAnterior = codLeido;
+				}
+				contadorGrupo++;
+			}
+			System.out.println("Hay " + contadorGrupo + " alumnos en el grupo " + codAnterior);
+			contadorTotal += contadorGrupo;
+			System.out.println("Hay " + contadorTotal + " alumnos en total");
+			// Close the input stream
+			fr.close();
+			br.close();
+		} catch (FileNotFoundException e) {// Catch exception if any
+			System.err.println("Error: " + e.getMessage());
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			System.err.println("Error: " + e.getMessage());
+		} catch (NullPointerException e) {
+			System.err.println("Error: " + e.getMessage());
+		}
+	}
+
+	public ArrayList<Vehiculo> LeerFicheroArrayListVehiculos(String nombreFichero) {
+		ArrayList<Vehiculo> resultado = new ArrayList<Vehiculo>();
+		try {
+			FileReader fr = new FileReader(nombreFichero);
+			BufferedReader br = new BufferedReader(fr);
+			String linea;
+			while ((linea = br.readLine()) != null) {
+				String[] campos = linea.split("##");
+				Vehiculo vehiculo = new Vehiculo();
+				DateTimeFormatter fmt = DateTimeFormatter.ofPattern("yyyyMMdd");
+				LocalDate fechaMatricula = LocalDate.parse(campos[3], fmt);
+				vehiculo.setId(Integer.parseInt(campos[0]));
+				vehiculo.setMatricula(campos[1]);
+				vehiculo.setMarcaModelo(Integer.parseInt(campos[2]));
+				vehiculo.setFechaMatricula(fechaMatricula);
+				vehiculo.setPrecio(Float.parseFloat(campos[4]));
+				resultado.add(vehiculo);
+			}
+			fr.close();
+			br.close();
+		} catch (FileNotFoundException e) {// Catch exception if any
+			System.err.println("Error: " + e.getMessage());
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			System.err.println("Error: " + e.getMessage());
+		} catch (NullPointerException e) {
+			System.err.println("Error: " + e.getMessage());
+		}
+		return resultado;
+	}
+
+	public void grabarObjetosVehiculoEnFichero(String nombreFichero) {
+		DateTimeFormatter fmt = DateTimeFormatter.ofPattern("yyyyMMdd");
+		LocalDate fechaMatriculaV1 = LocalDate.parse("20180106", fmt);
+		LocalDate fechaMatriculaV2 = LocalDate.parse("20170805", fmt);
+		Vehiculo v1 = new Vehiculo(005, "3489RFG", 1290, fechaMatriculaV1, 45.89f);
+		Vehiculo v2 = new Vehiculo(006, "2387GTH", 1243, fechaMatriculaV2, 28.76f);
+		try {
+			ObjectOutputStream fObj = new ObjectOutputStream(new FileOutputStream(nombreFichero));
+			fObj.writeObject(v1);
+			fObj.writeObject(v2);
+			fObj.close();
+		} catch (FileNotFoundException e) {
+			System.out.println("Fichero no encontrado");
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			System.out.println("Error IO");
+		}
+	}
+
+	public void grabarObjetosArrayListVehiculoEnFichero(String nombreFichero) {
+		ArrayList<Vehiculo> vehiculos = new ArrayList<Vehiculo>();
+		DateTimeFormatter fmt = DateTimeFormatter.ofPattern("yyyyMMdd");
+		LocalDate fechaMatriculaV1 = LocalDate.parse("20180106", fmt);
+		LocalDate fechaMatriculaV2 = LocalDate.parse("20170805", fmt);
+		Vehiculo v1 = new Vehiculo(005, "3489RFG", 1290, fechaMatriculaV1, 45.89f);
+		Vehiculo v2 = new Vehiculo(006, "2387GTH", 1243, fechaMatriculaV2, 28.76f);
+		vehiculos.add(v1);
+		vehiculos.add(v2);
+		try {
+			ObjectOutputStream fObj = new ObjectOutputStream(new FileOutputStream(nombreFichero));
+			fObj.writeObject(vehiculos);
+			fObj.close();
+		} catch (FileNotFoundException e) {
+			System.out.println("Fichero no encontrado");
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			System.out.println("Error IO");
+		}
+	}
+
+	public void leerObjetosVehiculoEnFichero(String nombreFichero) {
+		// leer el fichero de objetos
+		try {
+			FileInputStream fis = new FileInputStream(nombreFichero);
+			ObjectInputStream fObj = new ObjectInputStream(fis);
+			// Vehiculo vehiculo = null;
+			Vehiculo vehiculo = null;
+			while (fis.available() > 0) {
+				vehiculo = (Vehiculo) fObj.readObject();
+				System.out.println(vehiculo.getId());
+			}
+			fObj.close();
+			fis.close();
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			System.out.println("ClassNotFound");
+		} catch (FileNotFoundException e) {
+			System.out.println("Fichero no encontrado");
+			// return false;
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			System.out.println("Error IO");
+			// return false;
+		}
+	}
+
+	public void leerObjetosVehiculoArrayListEnFichero(String nombreFichero) {
+		// leer el fichero de objetos
+		try {
+			FileInputStream fis = new FileInputStream(nombreFichero);
+			ObjectInputStream fObj = new ObjectInputStream(fis);
+			// Vehiculo vehiculo = null;
+			ArrayList<Vehiculo> vehiculos = new ArrayList<Vehiculo>();
+			while (fis.available() > 0) {
+				vehiculos = (ArrayList<Vehiculo>) fObj.readObject();
+				for (Vehiculo vehiculo : vehiculos)
+					System.out.println(vehiculo.getMarcaModelo());
+			}
+			fObj.close();
+			fis.close();
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			System.out.println("ClassNotFound");
+		} catch (FileNotFoundException e) {
+			System.out.println("Fichero no encontrado");
+			// return false;
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			System.out.println("Error IO");
+			// return false;
+		}
+	}
+
+	public static void grabarListaObjetosEnFichero(String nombreFichero) {
 		// public boolean grabarObjetosEnFichero(String nombreFichero) {
-		/*Vehiculo v1 = new Vehiculo();
-		Vehiculo v2 = new Vehiculo();
-		Vehiculo v3 = new Vehiculo();*/
-		Estudiante est = new Estudiante(456,"45363715X","Lorena",'F',null,169,null,null);
-		/*v2.setMarca("Opel");
-		v1.setMatricula("GC 3208 X");
-		v1.setMarca("Seat");*/
+		/*
+		 * Vehiculo v1 = new Vehiculo(); Vehiculo v2 = new Vehiculo(); Vehiculo v3 = new
+		 * Vehiculo();
+		 */
+		Estudiante est = new Estudiante(456, "45363715X", "Lorena", 'F', null, 169, null, null);
+		Estudiante est1 = new Estudiante(123, "43753117", "Teresa", 'F', null, 163, null, null);
+		Estudiante est2 = new Estudiante(789, "42586114S", "Joaquin", 'M', null, 175, null, null);
+		ArrayList<Estudiante> estudiantes = new ArrayList<Estudiante>();
+		estudiantes.add(est);
+		estudiantes.add(est1);
+		estudiantes.add(est2);
+		/*
+		 * v2.setMarca("Opel"); v1.setMatricula("GC 3208 X"); v1.setMarca("Seat");
+		 */
 		// abrir el fichero de objetos
 		try {
 			ObjectOutputStream fObj = new ObjectOutputStream(new FileOutputStream(nombreFichero));
 			// Guardar los objetos de vehiculos
-			/*fObj.writeObject(v1);
-			fObj.writeObject(v2);
-			fObj.writeObject(v3);*/
+			/*
+			 * fObj.writeObject(v1); fObj.writeObject(v2); fObj.writeObject(v3);
+			 */
+			fObj.writeObject(estudiantes);
+			fObj.close();
+			// return true;
+		} catch (FileNotFoundException e) {
+			System.out.println("Fichero no encontrado");
+			// return false;
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			System.out.println("Error IO");
+			// return false;
+		}
+	}
+
+	public void leerListaObjetosArrayListEstudianteEnFichero(String nombreFichero) {
+		// leer el fichero de objetos
+		try {
+			FileInputStream fis = new FileInputStream(nombreFichero);
+			ObjectInputStream fObj = new ObjectInputStream(fis);
+			// Vehiculo vehiculo = null;
+			ArrayList<Estudiante> estudiantes = new ArrayList<Estudiante>();
+			while (fis.available() > 0)
+				estudiantes = (ArrayList<Estudiante>) fObj.readObject();
+			for (int i = 0; i < estudiantes.size(); i++)
+				System.out.println(estudiantes.get(i).getNombre());
+			fObj.close();
+			fis.close();
+		} catch (ClassNotFoundException e) {
+			// TODO Auto-generated catch block
+			System.out.println("ClassNotFound");
+		} catch (FileNotFoundException e) {
+			System.out.println("Fichero no encontrado");
+			// return false;
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			System.out.println(e.getMessage());
+			// return false;
+		}
+	}
+
+	public void grabarObjetosEnFichero(String nombreFichero) {
+		// public boolean grabarObjetosEnFichero(String nombreFichero) {
+		/*
+		 * Vehiculo v1 = new Vehiculo(); Vehiculo v2 = new Vehiculo(); Vehiculo v3 = new
+		 * Vehiculo();
+		 */
+		Estudiante est = new Estudiante(456, "45363715X", "Lorena", 'F', null, 169, null, null);
+		/*
+		 * v2.setMarca("Opel"); v1.setMatricula("GC 3208 X"); v1.setMarca("Seat");
+		 */
+		// abrir el fichero de objetos
+		try {
+			ObjectOutputStream fObj = new ObjectOutputStream(new FileOutputStream(nombreFichero));
+			// Guardar los objetos de vehiculos
+			/*
+			 * fObj.writeObject(v1); fObj.writeObject(v2); fObj.writeObject(v3);
+			 */
 			fObj.writeObject(est);
 			fObj.close();
 			// return true;
@@ -60,7 +520,7 @@ public class Practicas {
 		try {
 			FileInputStream fis = new FileInputStream(nombreFichero);
 			ObjectInputStream fObj = new ObjectInputStream(fis);
-			//Vehiculo vehiculo = null;
+			// Vehiculo vehiculo = null;
 			Estudiante estudiante = null;
 			while (fis.available() > 0) {
 				estudiante = (Estudiante) fObj.readObject();
@@ -102,6 +562,48 @@ public class Practicas {
 			 * catch (InterruptedException e) { // TODO Auto-generated catch block
 			 * System.out.println(e.getMessage()); return false; }
 			 */
+	}
+
+	public void leerFicheroTextoLanzamientoDados() {
+		try {
+			// Open the file that is the first
+			// command line parameter
+			FileReader fr = new FileReader("ficheros/LanzamientoDados.txt");
+			BufferedReader br = new BufferedReader(fr);
+			String linea;
+			// Leer el fichero linea a linea
+			while ((linea = br.readLine()) != null) {
+				// while(true) {
+				// Print the content on the console
+				// linea = br.readLine();
+				String[] campos = linea.split("#");
+				long milisegundos = Long.parseLong(campos[0]);
+				double segundos = milisegundos / 1000;
+				double minutos = segundos / 60;
+				double horas = minutos / 60;
+				double dias = horas / 24;
+				double meses = dias / 365;
+				double años = meses / 12;
+				System.out.println("Milisegundos: " + milisegundos + " " + campos[1]);
+				System.out.println("Segundos: " + segundos + " " + campos[1]);
+				System.out.println("Minutos: " + minutos + " " + campos[1]);
+				System.out.println("Horas: " + horas + " " + campos[1]);
+				System.out.println("Dias: " + dias + " " + campos[1]);
+				System.out.println("Meses: " + meses + " " + campos[1]);
+				System.out.println("Años: " + años + " " + campos[1]);
+				System.out.println("-------------------------------");
+			}
+			// Close the input stream
+			fr.close();
+			br.close();
+		} catch (FileNotFoundException e) {// Catch exception if any
+			System.err.println("Error: " + e.getMessage());
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			System.err.println("Error: " + e.getMessage());
+		} catch (NullPointerException e) {
+			System.err.println("Error: " + e.getMessage());
+		}
 	}
 
 	public ArrayList<Estudiante> introListas() {
@@ -688,6 +1190,35 @@ public class Practicas {
 		return saldoFinal;
 	}
 
+	public float calculaSaldo(float saldoInicial, String nombreFichero) {
+		float saldoFinal = saldoInicial;
+		LocalDate fechaHoy = LocalDate.now();
+		try {
+			FileReader fr = new FileReader("ficheros/Movimientos.txt");
+			BufferedReader br = new BufferedReader(fr);
+			String linea;
+			while ((linea = br.readLine()) != null) {
+				String[] campos = linea.split("#");
+				DateTimeFormatter fmt = DateTimeFormatter.ofPattern("yyyyMMdd");
+				LocalDate fechasMov = LocalDate.parse(campos[0], fmt);
+				saldoFinal += Float.parseFloat(campos[1]);
+				System.out.println(fechasMov + " : " + saldoFinal);
+			}
+			System.out.println("-------------------------");
+			System.out.println("Hoy: " + fechaHoy + " : " + saldoFinal);
+			// Close the input stream
+			fr.close();
+			br.close();
+		} catch (FileNotFoundException e) {// Catch exception if any
+			System.err.println("Error: " + e.getMessage());
+		} catch (IOException e) {
+			System.err.println("Error: " + e.getMessage());
+		} catch (NullPointerException e) {
+			System.err.println("Error: " + e.getMessage());
+		}
+		return saldoFinal;
+	}
+
 	public int[] convierteCadenasANumeros(String[] cadenas) {
 		int[] resultado = new int[cadenas.length];
 		for (int i = 0; i < resultado.length; i++) {
@@ -869,6 +1400,127 @@ public class Practicas {
 		for (int j = 0; j < v.get(0).size(); j++)
 			acu += v.get(isla).get(j);
 		return acu;
+	}
+
+	public void inicializaVisitantesIsla(HashMap<Integer, ArrayList<Float>> resultado) {
+		ArrayList<Float> visitantesMeses;
+		for (int isla = 0; isla < 7; isla++) { // recorre cada isla
+			visitantesMeses = new ArrayList<Float>();
+			for (int mes = 0; mes < 12; mes++) // pone a cero cada uno de los meses
+				visitantesMeses.add(0.0f);
+			resultado.put(isla, visitantesMeses);
+		}
+
+	}
+
+	public void listadoIslasMeses(String rutaFicheroVisitantes) {
+		HashMap<Integer, ArrayList<Float>> hm = visitantesIslaMes(rutaFicheroVisitantes);
+		// recorrrer hm
+		String[] islas = { "Gran Canaria", "Lanzarote", "Fuerteventura", "Tenerife", "La Palma", "La Gomera",
+				"El Hierro" };
+		String[] meses = { "Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto", "Septie",
+				"Octubre", "Noviem", "Diciembre" };
+		Set<Integer> claves = hm.keySet();
+		float[] acumuladoMes = new float[12];
+		System.out.print("\t\t");
+		for (int i = 0; i < meses.length; i++)
+			System.out.print(meses[i] + "\t");
+		System.out.println();
+		ArrayList<Float> visitantesIsla;
+		for (Integer clave : claves) {
+			visitantesIsla = hm.get(clave);
+			System.out.print(islas[clave] + "\t");
+			float acumuladoIsla = 0f;
+			for (int i = 0; i < visitantesIsla.size(); i++) {
+				acumuladoIsla += visitantesIsla.get(i);
+				acumuladoMes[i] += visitantesIsla.get(i);
+				System.out.printf("%.0f\t", visitantesIsla.get(i) * 1000);
+			}
+			System.out.println(" Total visitantes " + islas[clave] + " = " + acumuladoIsla);
+			System.out.println();
+
+		}
+		System.out.print("Visitantes: ");
+		for (Float valor : acumuladoMes) {
+			System.out.print("\t" + valor);
+		}
+
+	}
+
+	public HashMap<Integer, ArrayList<Float>> visitantesIslaMes(String nombreFichero) {
+		HashMap<Integer, ArrayList<Float>> resultado = new HashMap<Integer, ArrayList<Float>>();
+		HashMap<Integer, Float> total = new HashMap<Integer, Float>();
+		try {
+			FileReader fr = new FileReader(nombreFichero);
+			BufferedReader br = new BufferedReader(fr);
+			String linea;
+			inicializaVisitantesIsla(resultado); // Pone a cero todos los valores del HashMap resultado
+			while ((linea = br.readLine()) != null) {
+				String[] campos = linea.split("@");
+				int isla = Integer.parseInt(campos[0]);
+				int mes = Integer.parseInt(campos[1]);
+				float numeroVisitantes = Float.parseFloat(campos[2]);
+				resultado.get(isla - 1).set(mes - 1, numeroVisitantes);
+			}
+			fr.close();
+			br.close();
+			Set<Integer> claves = resultado.keySet();
+			for (Integer clave : claves) {
+				ArrayList<Float> listaVisitantes = resultado.get(clave);
+				float visitantes = 0;
+				for (float cantidad : listaVisitantes) {
+					visitantes += cantidad;
+				}
+				total.put(clave, visitantes);
+			}
+		} catch (FileNotFoundException e) {
+			System.err.println("Error: " + e.getMessage());
+		} catch (IOException e) {
+			System.err.println("Error: " + e.getMessage());
+		} catch (NullPointerException e) {
+			System.err.println("Error: " + e.getMessage());
+		}
+		System.out.println("Visitantes en cada isla en cada mes: " + resultado + " = " + total);
+		return resultado;
+	}
+
+	public HashMap<Integer, ArrayList<Float>> visitantesMesYear(String nombreFichero) {
+		HashMap<Integer, ArrayList<Float>> resultado = new HashMap<Integer, ArrayList<Float>>();
+		HashMap<Integer, Float> total = new HashMap<Integer, Float>();
+		try {
+			FileReader fr = new FileReader(nombreFichero);
+			BufferedReader br = new BufferedReader(fr);
+			String linea;
+			while ((linea = br.readLine()) != null) {
+				String[] campos = linea.split("@");
+				int clave = Integer.parseInt(campos[1]);
+				if (resultado.get(clave) == null)
+					resultado.put(clave, new ArrayList<Float>());
+				resultado.get(clave).add(Float.parseFloat(campos[2]));
+			}
+			fr.close();
+			br.close();
+			Set<Integer> claves = resultado.keySet();
+			for (Integer clave : claves) {
+				ArrayList<Float> listaVisitantes = resultado.get(clave);
+				float visitantes = 0;
+				for (float cantidad : listaVisitantes) {
+					visitantes += cantidad;
+				}
+				total.put(clave, visitantes);
+			}
+		} catch (FileNotFoundException e) {// Catch exception if any
+			System.err.println("Error: " + e.getMessage());
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			System.err.println("Error: " + e.getMessage());
+		} catch (NullPointerException e) {
+			System.err.println("Error: " + e.getMessage());
+		}
+
+		System.out.println("Visitantes al mes: " + resultado + " = " + total);
+		return resultado;
+
 	}
 
 	public int visitantesMesYear(int mes, int[][] v) {

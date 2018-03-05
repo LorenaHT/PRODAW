@@ -1,13 +1,15 @@
 package modelo;
 
-import java.io.Serializable;
 import java.time.LocalDate;
 
-public class Estudiante extends Persona implements Comparable<Estudiante>, Serializable{
+public class Estudiante extends Persona implements Comparable<Estudiante>{
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
+	/**
+	 * 
+	 */
 	private int codGrupo;
 
 	public Estudiante(int codGrupo) {
