@@ -107,7 +107,6 @@ public class Practicas {
 				if (Integer.parseInt(campos[1]) == i) {
 					provincias.put(clave, datos);
 				}
-
 			}
 			resultado.put(i, provincias);
 		}
@@ -122,9 +121,8 @@ public class Practicas {
 		HashMap<Integer, String> provincia = LeerFicheroHashMapIntegerString(ficheroProvincias);
 		Set<Integer> claves = provincia.keySet();
 		ArrayList<Integer> orden = new ArrayList<Integer>();
-		System.out.println("Comunidades Autonomas");
+		System.out.println("LISTADO DE PROVINCIAS DE LAS CCAA");
 		for (int i = 1; i < comunidades.length; i++) {
-			//System.out.println("Comunidad Autonoma: " + comunidades[i]);
 			ArrayList<ArrayList<String>> provincias = new ArrayList<ArrayList<String>>();
 			for (int clave : claves) {
 				ArrayList<String> datos = new ArrayList<String>();
@@ -134,37 +132,104 @@ public class Practicas {
 				datos.add(campos[2]);
 				boolean insertar = true;
 				for (int j = 0; j < orden.size(); j++) {
-					if (orden.get(j)==Integer.parseInt(campos[1])) {
+					if (orden.get(j) == Integer.parseInt(campos[1])) {
 						insertar = false;
 					}
 				}
 				if (insertar == true)
 					orden.add(Integer.parseInt(campos[1]));
 				if (Integer.parseInt(campos[1]) == i) {
-					//System.out.println(campos[0] + "   " + campos[2]);
 					provincias.add(datos);
-					
+
 				}
 			}
-			
-			//System.out.println("Total de CCAA: " + suma);
 			resultado.put(i, provincias);
-
 		}
-		//System.out.println(orden);
-		
-		for (int i = 0; i<orden.size(); i++) {
-			int suma = 0;
+		int total = 0;
+		for (int i = 0; i < orden.size(); i++) {
+			int subtotal = 0;
 			ArrayList<ArrayList<String>> lista = resultado.get(orden.get(i));
-			for (int j=0; j<lista.size(); j++) {
-				if (j==0)
-					System.out.println("Comunidad Autonoma: "+comunidades[orden.get(i)]);
-				System.out.println(lista.get(j).get(1)+"\t\t"+lista.get(j).get(2));
-				suma += Integer.parseInt(lista.get(j).get(2));
+			for (int j = 0; j < lista.size(); j++) {
+				if (j == 0)
+					System.out.println("COMUNIDAD AUTONOMA: " + comunidades[orden.get(i)]);
+				System.out.println(lista.get(j).get(1) + "\t\t" + lista.get(j).get(2));
+				subtotal += Integer.parseInt(lista.get(j).get(2));
+
 			}
-			System.out.println("Total de CCAA: "+suma+"\n");
+			total += subtotal;
+			System.out.println("TOTAL CCAA " + comunidades[orden.get(i)] + " \t\t" + subtotal);
 		}
+		System.out.println("TOTAL de las CCAA  \t\t" + total);
 		return resultado;
+	}
+	
+	public String[] leerCA (String rutaComunidades) {
+		String[] comunidades = new String[19];
+		try {
+			FileReader fr = new FileReader(rutaComunidades);
+			BufferedReader br = new BufferedReader(fr);
+			String linea;
+			int i = 0;
+			while ((linea = br.readLine()) != null) {
+				comunidades[i++] = linea.split("%")[1];
+			}
+			fr.close();
+			br.close();
+		} catch (FileNotFoundException e) {// Catch exception if any
+			System.err.println("Error: " + e.getMessage());
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			System.err.println("Error: " + e.getMessage());
+		} catch (NullPointerException e) {
+			System.err.println("Error: " + e.getMessage());
+		}
+		return comunidades;
+	}
+	
+	public HashMap<String, ArrayList<String>> generarDatosListadoProvincias (String rutaProvincias) {
+		String[] comunidades = leerCA("ficheros/comunidades.txt");
+		HashMap<String, ArrayList<String>> datosListado = new HashMap<String, ArrayList<String>>();
+		try {
+			FileReader fr = new FileReader(rutaProvincias);
+			BufferedReader br = new BufferedReader(fr);
+			String linea;
+			while ((linea = br.readLine()) != null) {
+				String[] campos = linea.split("%");
+				if (datosListado.get(comunidades[Integer.parseInt(campos[2])-1])== null)
+					datosListado.put(comunidades[Integer.parseInt(campos[2])-1], new ArrayList<String>());
+				datosListado.get(comunidades[Integer.parseInt(campos[2])-1]).add(campos[1]+"#"+campos[3]);
+			}
+			fr.close();
+			br.close();
+		} catch (FileNotFoundException e) {// Catch exception if any
+			System.err.println("Error: " + e.getMessage());
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			System.err.println("Error: " + e.getMessage());
+		} catch (NullPointerException e) {
+			System.err.println("Error: " + e.getMessage());
+		}
+		return datosListado;
+	}
+	
+	public void listadoProvinciasPorCA(HashMap<String, ArrayList<String>> datosListado) {
+		Set<String> comunidades = datosListado.keySet();
+		int total=0;
+		System.out.println("LISTADO DE PROVINCIAS DE LAS CCAA");
+		for (String comunidad : comunidades) {
+			ArrayList<String> listaProvincias = datosListado.get(comunidad);
+			int acumuladoCA = 0;
+			System.out.println("CCAA : " + comunidad);
+			//for (float venta : ventas.get(clave)) {
+			for (String provincia : listaProvincias) {
+				acumuladoCA += Integer.parseInt(provincia.split("#")[1]);
+				System.out.println(provincia.split("#")[0]+ ", "+provincia.split("#")[1]);
+			}
+			System.out.println("Total padrón CCAA : " + comunidad + " = " + acumuladoCA);
+			total += acumuladoCA;
+			
+		}
+		System.out.println("Total de las CCAA : " + total);
 	}
 
 	public Estudiante crearEstudianteLeido(String[] datos) {
@@ -240,8 +305,9 @@ public class Practicas {
 				estudiante = (Estudiante) ois.readObject();
 				String fechaCompleta = estudiante.getFecha().toString();
 				String[] fecha = fechaCompleta.split("-");
-				String registro = estudiante.getCodGrupo() + "#" + estudiante.getNif() + "#"+estudiante.getNombre() + "#" + estudiante.getSexo()
-						+ "#" + fecha[0] + fecha[1] + fecha[2] + "#" + estudiante.getAltura() + "\n";
+				String registro = estudiante.getCodGrupo() + "#" + estudiante.getNif() + "#" + estudiante.getNombre()
+						+ "#" + estudiante.getSexo() + "#" + fecha[0] + fecha[1] + fecha[2] + "#"
+						+ estudiante.getAltura() + "\n";
 				fb.write(registro);
 			}
 			ois.close();

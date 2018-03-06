@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Set;
 
 import auxiliar.Practicas;
@@ -394,6 +395,15 @@ public class Principal {
 		practicas.LeerFicheroArrayString("ficheros/comunidades.txt");
 		practicas.LeerFicheroHashMapIntegerString("ficheros/provincias.txt");
 		//practicas.LeerFicheroHashMapIntegerLinkedHashMap("ficheros/comunidades.txt", "ficheros/provincias.txt");
+		System.out.println("");
 		practicas.LeerFicheroHashMapArrayListString("ficheros/comunidades.txt", "ficheros/provincias.txt");
+		String[] ca = practicas.leerCA("ficheros/comunidades.txt");
+		List<String> ica = Arrays.asList(ca);
+		Collections.sort(ica);
+		System.out.println("");
+		HashMap<String, ArrayList<String>> listar = practicas.generarDatosListadoProvincias( "ficheros/provincias.txt");
+		System.out.println("");
+		HashMap<String, ArrayList<String>> datosListado = practicas.generarDatosListadoProvincias( "ficheros/provincias.txt");
+		practicas.listadoProvinciasPorCA(datosListado);
 	}
 }
